@@ -1,0 +1,59 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{recipe}[2020/03/18 Recipe Package]
+
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{enumitem}
+\RequirePackage{xifthen}
+
+% \titlespacing{command}{left spacing}{before spacing}{after spacing}[right]
+% spacing: how to read {12pt plus 4pt minus 2pt}
+% 12pt is what we would like the spacing to be plus 4pt means that TeX can
+% stretch it by at most 4pt minus 2pt means that TeX can shrink it by at most
+% 2pt This is one example of the concept of, 'glue', in TeX
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{5pt}
+\titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{-5pt}
+\titlespacing\subsubsection{0pt}{12pt plus 4pt minus 2pt}{-5pt}
+\pagestyle{fancy}
+
+\newcommand{\recipe}[6][]{%
+    % 2: name, 3: serves, 4: signs (V for vegetarian, etc),
+    % 5: prep time, 6: cook time, 1 (optional): important info
+    \newpage
+    \lhead{{\LARGE \textbf{#2}}}
+    \chead{Serves #3}
+    \rhead{#4}
+    \ifthenelse{\isempty{#1}}
+        {
+            \parbox{125pt}{
+                {\em Prep Time} \hfill #5
+
+                {\em Cook Time} \hfill #6
+            }
+        }
+        {
+            \parbox{300pt}{{\em #1 }}
+
+            \parbox{125pt}{
+                \vspace{1.0\baselineskip}
+                {\em Prep Time} \hfill #5
+
+                {\em Cook Time} \hfill #6
+            }
+        }
+}
+
+\newcommand{\ingredients}[1]{%
+    \section*{Ingredients}
+    \renewcommand\labelitemi{\tiny$\bullet$}
+    \begin{itemize}[leftmargin=*]
+        #1
+    \end{itemize}
+}
+
+\newcommand{\instructions}[1]{%
+    \section*{Instructions}
+    \begin{enumerate}[leftmargin=*]
+        #1
+    \end{enumerate}
+}
